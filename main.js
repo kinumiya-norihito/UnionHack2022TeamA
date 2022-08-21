@@ -6,19 +6,20 @@ window.onload=()=>{
 
     //test
     const figureList = [];
-    figureList.push(new Circle(context, 300,300,100)); 
-    figureList.push(new Rectangle(context, 300,300,100,100));
+    figureList.push(new Circle(context, 300, 300, 100)); 
+    figureList.push(new Rectangle(context, 300, 300, 100, 100));
     for(const figure of figureList){
         figure.fillStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
         figure.fill();
-        console.log(figure.fillStyle);
     }
 
 
     let isDowning=false;
-    let lastPosition={x:0,y:0};
+    let lastPosition={x:-1,y:-1};
     canvasElement.addEventListener('mousedown',(e)=>{
         const mx = e.offsetX, my = e.offsetY;
+        lastPosition.x = mx;
+        lastPosition.y = my;
         for(let i=figureList.length-1;0<=i;i--){
             const figure = figureList[i];
             if(figure.isIn(mx, my)){
@@ -30,15 +31,18 @@ window.onload=()=>{
         }
         for(const figure of figureList){
             figure.fill();
-            console.log(figure.fillStyle);
         }
     });
 
     canvasElement.addEventListener('mousemove',(e)=>{
-        const mx = e.offsetX, my = e.offsetY;
-        const figure = figureList.slice(-1);
+        const dx = e.offsetX-lastPosition.x, dy = e.offsetY-lastPosition.y;
+        lastPosition.x = e.offsetX, lastPosition.y = e.offsetY;
+        const figure = figureList.slice(-1)[0];
         if(isDowning){
-            
+            figure.move(dx,dy);
+        }
+        for(const figure of figureList){
+            figure.fill();
         }
     });
 
