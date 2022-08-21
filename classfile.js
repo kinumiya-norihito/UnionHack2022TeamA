@@ -6,8 +6,8 @@ class Figure{
     #fillStyle;
     constructor(context, positionX, positionY){
         this.#context = context;
-        this.#positionX = Math.abs(positionX);
-        this.#positionY = Math.abs(positionY);
+        this.#positionX = positionX;
+        this.#positionY = positionY;
     }
 
     get positionX(){
@@ -29,15 +29,21 @@ class Figure{
     get fillStyle(){
         return this.#fillStyle;
     }
+
+    move(dx,dy){
+        this.#positionX+=dx;
+        this.#positionY+=dy;
+    }
+
     
     fill(){
         this.#context.fillStyle = this.#fillStyle;
     }
 
-    isIn(){
+    isIn(x,y){
         return false;
     }
-}
+};
 
 class Circle extends Figure{
     #radius;
@@ -46,6 +52,9 @@ class Circle extends Figure{
         this.#radius = Math.abs(radius);
     }
 
+    move(dx,dy){
+        super.move(dx,dy);
+    }
 
     fill(){
         super.fill();
@@ -57,7 +66,7 @@ class Circle extends Figure{
     isIn(x,y){
         return (x-super.positionX)**2+(y-super.positionY)**2<=this.#radius**2;
     }
-}
+};
 
 class Rectangle extends Figure{
     #width;
@@ -66,6 +75,10 @@ class Rectangle extends Figure{
         super(context, positionX, positionY);
         this.#width = Math.abs(width);
         this.#height = Math.abs(height);
+    }
+
+    move(dx,dy){
+        super.move(dx,dy);
     }
 
     fill(){
