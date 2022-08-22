@@ -61,6 +61,11 @@ window.onload=()=>{
             isDowning=false;
         }
     });
+    canvasElement.addEventListener('mouseout',(e)=>{
+        if(isDowning){
+            isDowning=false;
+        }
+    });
 
     //図形の追加
     addFigureButtonElement.addEventListener('click',(e)=>{
