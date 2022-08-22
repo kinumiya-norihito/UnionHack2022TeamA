@@ -1,19 +1,22 @@
 window.onload=()=>{
     const canvasElement = document.getElementById('canvas'), context = canvasElement.getContext('2d');
     const addFigureButtonElement = document.getElementById('addFigureButtonElement');
-    let canvasWidth = 600, canvasHeight = 600;
+    let canvasWidth = 1920, canvasHeight = 1080;
     canvasElement.width = canvasWidth;
     canvasElement.height = canvasHeight;
 
     //図形の追加
     const figureList = [];
     figureList.push(new Circle(context, 300, 300, 100)); 
+    figureList[0].fillStyle='#F2DF3A';
     figureList.push(new Rectangle(context, 300, 300, 100, 100));
+    figureList[1].fillStyle='#0078AA';
     figureList.push(new Triangle(context, 300, 300, 100, 100,400,200));
+    figureList[2].fillStyle='#3AB4F2';
     
     //図形の色の指定と表示
     for(const figure of figureList){
-        figure.fillStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
+        //figure.fillStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
         figure.fill();
     }
 
