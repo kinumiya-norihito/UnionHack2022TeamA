@@ -1,5 +1,6 @@
 window.onload=()=>{
     const canvasElement = document.getElementById('canvas'), context = canvasElement.getContext('2d');
+    const addFigureButtonElement = document.getElementById('addFigureButtonElement');
     let canvasWidth = 600, canvasHeight = 600;
     canvasElement.width = canvasWidth;
     canvasElement.height = canvasHeight;
@@ -19,7 +20,6 @@ window.onload=()=>{
     //操作関係
     //押してるか押してないか
     let isDowning=false;
-
     let lastPosition={x:-1,y:-1};
     canvasElement.addEventListener('mousedown',(e)=>{
         const mx = e.offsetX, my = e.offsetY;
@@ -53,5 +53,13 @@ window.onload=()=>{
         if(isDowning){
             isDowning=false;
         }
+    });
+
+    //図形の追加
+    addFigureButtonElement.addEventListener('click',(e)=>{
+        const figure = new Rectangle(context,100,100,100,100);
+        figure.fillStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
+        figure.fill();
+        figureList.push(figure);
     });
 };
