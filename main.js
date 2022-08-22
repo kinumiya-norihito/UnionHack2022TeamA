@@ -19,6 +19,9 @@ window.onload=()=>{
         //figure.fillStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
         figure.fill();
     }
+    function clear() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
 
     //操作関係
     //押してるか押してないか
@@ -42,6 +45,7 @@ window.onload=()=>{
         }
     });
     canvasElement.addEventListener('mousemove',(e)=>{
+        clear();
         const dx = e.offsetX-lastPosition.x, dy = e.offsetY-lastPosition.y;
         lastPosition.x = e.offsetX, lastPosition.y = e.offsetY;
         const figure = figureList.slice(-1)[0];
