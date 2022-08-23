@@ -115,6 +115,18 @@ window.onload=()=>{
             s:'#F2DF3A',
             w:10
         },
+        {
+            //複合図形
+            f:new Figures(new Circle(context, 391, 256, 60, 0),new Circle(context, 442, 296, 41, 0)),
+            s:'#F2DF3A',
+            w:10
+        },
+        {
+            //複合図形
+            f:new Figures(new Rectangle(context, 476, 893, 134, 400, 0),new Rectangle(context, 566, 988, 180, 400, 0)),
+            s:'#0078AA',
+            w:10
+        },
     ];
 
     for(const figure of figureObjList){
