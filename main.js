@@ -202,4 +202,12 @@ window.onload=()=>{
         figure.draw();
         figureList.push(figure);
     });
+    // function autoMove(figure){
+    //   figure.draw();
+    //   clear();
+    //   return requestAnimationFrame(autoMove);
+    // }
+    figure = figureList[3];
+    console.log(figure);
+    // autoMove(figure);
 };
