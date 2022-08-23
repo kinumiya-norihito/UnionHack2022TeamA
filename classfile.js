@@ -13,7 +13,6 @@ class Figure{
         this.#positionY = positionY;
         this.#drawType = drawType;
     }
-
     get positionX(){
         return this.#positionX;
     }
@@ -34,16 +33,32 @@ class Figure{
         this.#lineWidth=lineWidth;
     }
 
+    save(){
+        this.#context.save();
+    }
+
+    restore(){
+        this.#context.restore();
+    }
+
+    clip(){
+        this.#context.clip();
+    }
+
     //移動
     move(dx,dy){
         this.#positionX+=dx;
         this.#positionY+=dy;
     }
 
+    fill(){
+        this.#context.fillStyle=this.#style;
+        this.#context.fill();
+    }
+
     draw(){
         if(this.#drawType){
-            this.#context.fillStyle=this.#style;
-            this.#context.fill();
+            this.fill();
         }
         else{
             this.#context.strokeStyle=this.#style;
@@ -56,7 +71,61 @@ class Figure{
     isIn(x,y){
         return this.#context.isPointInPath(x,y);
     }
-};
+}
+
+class Figures{
+    #figures=[];
+    #context;
+    constructor(...args){
+        for(const arg of args){
+            this.#figures.push(arg);
+        }
+    }
+
+    set setStyle(style){
+        for(const figure of this.#figures){
+            figure.setStyle=style;
+        }
+    }
+
+    set lineWidth(lineWidth){
+        for(const figure of this.#figures){
+            figure.lineWidth=lineWidth;
+        }
+    }
+
+    move(dx,dy){
+        for(const figure of this.#figures){
+            figure.move(dx,dy);
+        }
+    }
+
+    draw(){
+        for(const figure of this.#figures){
+            figure.draw();
+        }
+        this.#figures[0].save();
+        for(const i in this.#figures){
+            const figure = this.#figures[i];
+            if(i==0){
+                figure.makePath();
+                figure.clip();
+            }
+            else{
+                figure.makePath();
+                figure.fill();
+            }
+        }
+        this.#figures[0].restore();
+    }
+
+    isIn(x,y){
+        for(const figure of this.#figures){
+            if(figure.isIn(x,y))return true;
+        }
+        return false;
+    }
+}
 
 /*
 move(xdx,dy): void, 現在位置からdx,dyだけ移動
@@ -75,21 +144,21 @@ class Circle extends Figure{
         super.move(dx,dy);
     }
 
-    #makePath(){
+    makePath(){
         super.context.beginPath();
         super.context.arc(super.positionX, super.positionY, this.#radius, 0, 2*Math.PI, 1);
     }
 
     draw(){
-        this.#makePath();
+        this.makePath();
         super.draw();
     }
 
     isIn(x,y){
-        this.#makePath();
+        this.makePath();
         return super.isIn(x,y);
     }
-};
+}
 
 class Rectangle extends Figure{
     #width;
@@ -104,18 +173,18 @@ class Rectangle extends Figure{
         super.move(dx,dy);
     }
 
-    #makePath(){
+    makePath(){
         super.context.beginPath();
         super.context.rect(super.positionX, super.positionY, this.#width, this.#height);
     }
 
     draw(){
-        this.#makePath();
+        this.makePath();
         super.draw();
     }
 
     isIn(x,y){
-        this.#makePath();
+        this.makePath();
         return super.isIn(x,y);
     }
 }
@@ -137,7 +206,7 @@ class Triangle extends Figure{
         super.move(dx,dy);
     }
 
-    #makePath(){
+    makePath(){
         super.context.beginPath();
         const p0x=super.positionX,p0y=super.positionY;
         super.context.moveTo(p0x, p0y);
@@ -147,12 +216,12 @@ class Triangle extends Figure{
     }
 
     draw(){
-        this.#makePath();
+        this.makePath();
         super.draw();
     }
 
     isIn(x,y){
-        this.#makePath();
+        this.makePath();
         return super.isIn(x,y);
     }
 }
