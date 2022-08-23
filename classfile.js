@@ -3,11 +3,14 @@ class Figure{
     #context;
     #positionX;
     #positionY;
-    #fillStyle;
-    constructor(context, positionX, positionY){
+    #style;
+    #drawType;
+
+    constructor(context, positionX, positionY, drawType){
         this.#context = context;
         this.#positionX = positionX;
         this.#positionY = positionY;
+        this.#drawType = drawType;
     }
 
     get positionX(){
@@ -22,22 +25,25 @@ class Figure{
         return this.#context;
     }
 
-    set fillStyle(fillStyle){
-        this.#fillStyle = fillStyle;
+    set setStyle(style){
+        this.#style = style;
     }
 
-    get fillStyle(){
-        return this.#fillStyle;
-    }
     //移動
     move(dx,dy){
         this.#positionX+=dx;
         this.#positionY+=dy;
     }
 
-    //色塗り
-    fill(){
-        this.#context.fillStyle = this.#fillStyle;
+    draw(){
+        if(this.#drawType){
+            this.#context.fillStyle=this.#style;
+            this.#context.fill();
+        }
+        else{
+            this.#context.strokeStyle=this.#style;
+            this.#context.stroke();
+        }
     }
 
     //内外判定
@@ -48,8 +54,8 @@ class Figure{
 
 class Circle extends Figure{
     #radius;
-    constructor(context, positionX, positionY, radius){
-        super(context, positionX, positionY);
+    constructor(context, positionX, positionY, radius, drawType){
+        super(context, positionX, positionY, drawType);
         this.#radius = Math.abs(radius);
     }
 
@@ -57,11 +63,10 @@ class Circle extends Figure{
         super.move(dx,dy);
     }
 
-    fill(){
-        super.fill();
+    draw(){
         super.context.beginPath();
         super.context.arc(super.positionX, super.positionY, this.#radius, 0, 2*Math.PI, 1);
-        super.context.fill();
+        super.draw();
     }
 
     isIn(x,y){
@@ -72,8 +77,8 @@ class Circle extends Figure{
 class Rectangle extends Figure{
     #width;
     #height;
-    constructor(context, positionX, positionY, width, height){
-        super(context, positionX, positionY);
+    constructor(context, positionX, positionY, width, height, drawType){
+        super(context, positionX, positionY, drawType);
         this.#width = Math.abs(width);
         this.#height = Math.abs(height);
     }
@@ -82,9 +87,10 @@ class Rectangle extends Figure{
         super.move(dx,dy);
     }
 
-    fill(){
-        super.fill();
-        super.context.fillRect(super.positionX, super.positionY, this.#width, this.#height);
+    draw(){
+        super.context.beginPath();
+        super.context.rect(super.positionX, super.positionY, this.#width, this.#height);
+        super.draw();
     }
 
     isIn(x,y){
@@ -98,8 +104,8 @@ class Triangle extends Figure{
     #p1y;
     #p2x;
     #p2y;
-    constructor(context, p0x, p0y, p1x, p1y, p2x, p2y){
-        super(context, p0x, p0y);
+    constructor(context, p0x, p0y, p1x, p1y, p2x, p2y, drawType){
+        super(context, p0x, p0y, drawType);
         this.#p1x = p1x-p0x;
         this.#p1y = p1y-p0y;
         this.#p2x = p2x-p0x;
@@ -110,15 +116,14 @@ class Triangle extends Figure{
         super.move(dx,dy);
     }
 
-    fill(){
-        super.fill();
+    draw(){
         super.context.beginPath();
         const p0x=super.positionX,p0y=super.positionY;
         super.context.moveTo(p0x, p0y);
         super.context.lineTo(this.#p1x+p0x,this.#p1y+p0y);
         super.context.lineTo(this.#p2x+p0x,this.#p2y+p0y);
         super.context.closePath();
-        super.context.fill();
+        super.draw();
     }
 
     isIn(x,y){
