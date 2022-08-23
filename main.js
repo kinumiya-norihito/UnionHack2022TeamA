@@ -7,22 +7,30 @@ window.onload=()=>{
 
     //図形の追加
     const figureList = [];
-    figureList.push(new Circle(context, 300, 300, 100, 1)); 
-    figureList[0].setStyle='#F2DF3A';
-    figureList.push(new Rectangle(context, 300, 300, 100, 100, 1));
-    figureList[1].setStyle='#0078AA';
-    figureList.push(new Triangle(context, 300, 300, 100, 100,400,200, 1));
-    figureList[2].setStyle='#3AB4F2';
 
-    figureList.push(new Circle(context, 300, 300, 100, 0)); 
-    figureList[3].setStyle='#F2DF3A';
-    figureList[3].lineWidth=20;
-    figureList.push(new Rectangle(context, 300, 300, 100, 100, 0));
-    figureList[4].setStyle='#0078AA';
-    figureList[4].lineWidth=5;
-    figureList.push(new Triangle(context, 300, 300, 100, 100,400,200, 0));
-    figureList[5].setStyle='#3AB4F2';
-    figureList[5].lineWidth=10;
+
+    const figureObjList = [
+        {
+            f:new Circle(context, 0, 0, 100, 0),
+            s:'#0078AA',
+            w:10
+        },
+        {
+            f:new Circle(context, 0, 20, 190, 0),
+            s:'#0078AA',
+            w:15
+        }
+    ];
+
+    for(const figure of figureObjList){
+        figureList.push(figure.f);
+        figure.f.setStyle=figure.s;
+        figure.w&&(figure.f.lineWidth=figure.w);
+    }
+
+    //#F2DF3A
+    //#0078AA
+    //#3AB4F2
     
     //図形の色の指定と表示
     let counter=0;
