@@ -25,8 +25,7 @@ window.onload=()=>{
         {
             //上部の三角
             f:new Triangle(context, 450, 0, 555, 150, 640, 0, 1),
-            s:'#0078AA',
-            w:15
+            s:'#0078AA'
         },
         {
             //三連図形
@@ -52,6 +51,70 @@ window.onload=()=>{
             s:'#F2DF3A',
             w:10
         },
+        {
+            //円
+            f:new Circle(context, 140, 494, 98, 0),
+            s:'#3AB4F2',
+            w:12
+        },
+        {
+            //長方形
+            f:new Rectangle(context, -100, 732, 295, 230, 0),
+            s:'#3AB4F2',
+            w:10
+        },
+        {
+            //円
+            f:new Circle(context, 225, 1007, 125, 0),
+            s:'#F2DF3A',
+            w:12
+        },
+        {
+            //三角
+            f:new Triangle(context, 594, 603, 651, 808, 802, 660, 0),
+            s:'#F2DF3A',
+            w:20
+        },
+        {
+            //三角
+            f:new Circle(context, 1694, 685, 70, 1),
+            s:'#0078AA'
+        },
+        {
+            //四角
+            f:new Rectangle(context, 1695, 432, 120, 257, 0),
+            s:'#3AB4F2',
+            w:10
+        },
+        {
+            //四角
+            f:new Rectangle(context, 1768, 139, 1000, 402, 1),
+            s:'#F2DF3A'
+        },
+        {
+            //三角
+            f:new Triangle(context, 1148, 730, 1128, 990, 1371, 844, 0),
+            s:'#0078AA',
+            w:15
+        },
+        {
+            //三角
+            f:new Triangle(context, 1258, 860, 1394, 775, 1405, 940, 0),
+            s:'#3AB4F2',
+            w:15
+        },
+        {
+            //三角
+            f:new Circle(context, 1780, 892, 64, 0),
+            s:'#F2DF3A',
+            w:10
+        },
+        {
+            //三角
+            f:new Circle(context, 1895, 1005, 150, 0),
+            s:'#F2DF3A',
+            w:10
+        },
     ];
 
     for(const figure of figureObjList){
@@ -60,9 +123,9 @@ window.onload=()=>{
         figure.w&&(figure.f.lineWidth=figure.w);
     }
 
-    //#F2DF3A
-    //#0078AA
-    //#3AB4F2
+    //　暗い青: #0078AA
+    //明るい青: #3AB4F2
+    //　　黄色: #F2DF3A
     
     //図形の色の指定と表示
     let counter=0;
