@@ -11,15 +11,47 @@ window.onload=()=>{
 
     const figureObjList = [
         {
-            f:new Circle(context, 0, 0, 100, 0),
+            //右上の円(小)
+            f:new Circle(context, 0, 20, 190, 0),
+            s:'#0078AA',
+            w:15
+        },
+        {
+            ////右上の円(大)
+            f:new Circle(context, 70, 90, 215, 0),
+            s:'#0078AA',
+            w:15
+        },
+        {
+            //上部の三角
+            f:new Triangle(context, 450, 0, 555, 150, 640, 0, 1),
+            s:'#0078AA',
+            w:15
+        },
+        {
+            //三連図形
+            f:new Rectangle(context, 745, 123, 218, 103, 0),
             s:'#0078AA',
             w:10
         },
         {
-            f:new Circle(context, 0, 20, 190, 0),
-            s:'#0078AA',
-            w:15
-        }
+            //三連図形
+            f:new Rectangle(context, 843, 171, 301, 113, 0),
+            s:'#3AB4F2',
+            w:10
+        },
+        {
+            //三連図形
+            f:new Triangle(context, 1025, 331, 1194, 372, 1180, 196, 0),
+            s:'#F2DF3A',
+            w:14
+        },
+        {
+            //円
+            f:new Circle(context, 1238, 548, 132, 0),
+            s:'#F2DF3A',
+            w:10
+        },
     ];
 
     for(const figure of figureObjList){
@@ -49,6 +81,7 @@ window.onload=()=>{
     let lastPosition={x:-1,y:-1};
     canvasElement.addEventListener('mousedown',(e)=>{
         const mx = e.offsetX, my = e.offsetY;
+        console.log([mx,my]);
         lastPosition.x = mx;
         lastPosition.y = my;
         for(let i=figureList.length-1;0<=i;i--){
