@@ -7,17 +7,29 @@ window.onload=()=>{
 
     //図形の追加
     const figureList = [];
-    figureList.push(new Circle(context, 300, 300, 100)); 
-    figureList[0].fillStyle='#F2DF3A';
-    figureList.push(new Rectangle(context, 300, 300, 100, 100));
-    figureList[1].fillStyle='#0078AA';
-    figureList.push(new Triangle(context, 300, 300, 100, 100,400,200));
-    figureList[2].fillStyle='#3AB4F2';
+    figureList.push(new Circle(context, 300, 300, 100, 1)); 
+    figureList[0].setStyle='#F2DF3A';
+    figureList.push(new Rectangle(context, 300, 300, 100, 100, 1));
+    figureList[1].setStyle='#0078AA';
+    figureList.push(new Triangle(context, 300, 300, 100, 100,400,200, 1));
+    figureList[2].setStyle='#3AB4F2';
+
+    figureList.push(new Circle(context, 300, 300, 100, 0)); 
+    figureList[3].setStyle='#F2DF3A';
+    figureList[3].lineWidth=20;
+    figureList.push(new Rectangle(context, 300, 300, 100, 100, 0));
+    figureList[4].setStyle='#0078AA';
+    figureList[4].lineWidth=5;
+    figureList.push(new Triangle(context, 300, 300, 100, 100,400,200, 0));
+    figureList[5].setStyle='#3AB4F2';
+    figureList[5].lineWidth=10;
     
     //図形の色の指定と表示
+    let counter=0;
     for(const figure of figureList){
         //figure.fillStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
-        figure.fill();
+        figure.draw();
+        counter++;
     }
     function clear() {
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -41,7 +53,7 @@ window.onload=()=>{
             }
         }
         for(const figure of figureList){
-            figure.fill();
+            figure.draw();
         }
     });
     canvasElement.addEventListener('mousemove',(e)=>{
@@ -53,10 +65,15 @@ window.onload=()=>{
             figure.move(dx,dy);
         }
         for(const figure of figureList){
-            figure.fill();
+            figure.draw();
         }
     });
     canvasElement.addEventListener('mouseup',(e)=>{
+        if(isDowning){
+            isDowning=false;
+        }
+    });
+    canvasElement.addEventListener('mouseout',(e)=>{
         if(isDowning){
             isDowning=false;
         }
@@ -65,8 +82,8 @@ window.onload=()=>{
     //図形の追加
     addFigureButtonElement.addEventListener('click',(e)=>{
         const figure = new Rectangle(context,100,100,100,100);
-        figure.fillStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
-        figure.fill();
+        figure.setStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
+        figure.draw();
         figureList.push(figure);
     });
 };
