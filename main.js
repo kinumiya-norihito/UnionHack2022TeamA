@@ -16,10 +16,13 @@ window.onload=()=>{
 
     figureList.push(new Circle(context, 300, 300, 100, 0)); 
     figureList[3].setStyle='#F2DF3A';
+    figureList[3].lineWidth=20;
     figureList.push(new Rectangle(context, 300, 300, 100, 100, 0));
     figureList[4].setStyle='#0078AA';
+    figureList[4].lineWidth=5;
     figureList.push(new Triangle(context, 300, 300, 100, 100,400,200, 0));
     figureList[5].setStyle='#3AB4F2';
+    figureList[5].lineWidth=10;
     
     //図形の色の指定と表示
     let counter=0;

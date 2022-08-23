@@ -5,6 +5,7 @@ class Figure{
     #positionY;
     #style;
     #drawType;
+    #lineWidth;
 
     constructor(context, positionX, positionY, drawType){
         this.#context = context;
@@ -29,6 +30,10 @@ class Figure{
         this.#style = style;
     }
 
+    set lineWidth(lineWidth){
+        this.#lineWidth=lineWidth;
+    }
+
     //移動
     move(dx,dy){
         this.#positionX+=dx;
@@ -42,6 +47,7 @@ class Figure{
         }
         else{
             this.#context.strokeStyle=this.#style;
+            this.#context.lineWidth=this.#lineWidth;
             this.#context.stroke();
         }
     }
@@ -51,6 +57,12 @@ class Figure{
         return this.#context.isPointInPath(x,y);
     }
 };
+
+/*
+move(xdx,dy): void, 現在位置からdx,dyだけ移動
+draw(): void, 図形を描写
+isIn(x,y): bool, x,yが図形のpath内にあるかを判定
+ */
 
 class Circle extends Figure{
     #radius;
