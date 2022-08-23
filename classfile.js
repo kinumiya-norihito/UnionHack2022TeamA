@@ -73,59 +73,6 @@ class Figure{
     }
 }
 
-class Figures{
-    #figures=[];
-    #context;
-    constructor(...args){
-        for(const arg of args){
-            this.#figures.push(arg);
-        }
-    }
-
-    set setStyle(style){
-        for(const figure of this.#figures){
-            figure.setStyle=style;
-        }
-    }
-
-    set lineWidth(lineWidth){
-        for(const figure of this.#figures){
-            figure.lineWidth=lineWidth;
-        }
-    }
-
-    move(dx,dy){
-        for(const figure of this.#figures){
-            figure.move(dx,dy);
-        }
-    }
-
-    draw(){
-        for(const figure of this.#figures){
-            figure.draw();
-        }
-        this.#figures[0].save();
-        for(const i in this.#figures){
-            const figure = this.#figures[i];
-            if(i==0){
-                figure.makePath();
-                figure.clip();
-            }
-            else{
-                figure.makePath();
-                figure.fill();
-            }
-        }
-        this.#figures[0].restore();
-    }
-
-    isIn(x,y){
-        for(const figure of this.#figures){
-            if(figure.isIn(x,y))return true;
-        }
-        return false;
-    }
-}
 
 /*
 move(xdx,dy): void, 現在位置からdx,dyだけ移動
@@ -223,5 +170,61 @@ class Triangle extends Figure{
     isIn(x,y){
         this.makePath();
         return super.isIn(x,y);
+    }
+}
+
+
+//特殊
+class Figures{
+    #figures=[];
+    #context;
+    constructor(...args){
+        for(const arg of args){
+            this.#figures.push(arg);
+        }
+    }
+
+    set setStyle(style){
+        for(const figure of this.#figures){
+            figure.setStyle=style;
+        }
+    }
+
+    set lineWidth(lineWidth){
+        for(const figure of this.#figures){
+            figure.lineWidth=lineWidth;
+        }
+    }
+
+    move(dx,dy){
+        for(const figure of this.#figures){
+            figure.move(dx,dy);
+        }
+    }
+
+    draw(){
+        for(const figure of this.#figures){
+            figure.draw();
+        }
+        this.#figures[0].save();
+        for(const i in this.#figures){
+            const figure = this.#figures[i];
+            if(i==0){
+                figure.makePath();
+                figure.clip();
+            }
+            else{
+                figure.makePath();
+                figure.fill();
+            }
+        }
+        this.#figures[0].restore();
+    }
+
+    isIn(x,y){
+        for(const figure of this.#figures){
+            if(figure.isIn(x,y))return true;
+        }
+        return false;
     }
 }
