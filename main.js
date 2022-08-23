@@ -12,13 +12,13 @@ window.onload=()=>{
     const figureObjList = [
         {
             //右上の円(小)
-            f:new Circle(context, 0, 20, 190, 0),
+            f:new Circle(context, -4, 25, 190, 0),
             s:'#0078AA',
             w:15
         },
         {
             ////右上の円(大)
-            f:new Circle(context, 70, 90, 215, 0),
+            f:new Circle(context, 80, 100, 205, 0),
             s:'#0078AA',
             w:15
         },
