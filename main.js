@@ -5,6 +5,17 @@ window.onload=()=>{
     canvasElement.width = canvasWidth;
     canvasElement.height = canvasHeight;
 
+    //関数
+    HTMLCanvasElement.prototype.downloadCanvas = function(name){
+        if(name&&name.match(/\.png$/)[0])name+='.png';
+        const a = document.createElement('a');
+        a.download = name || 'canvas.png';
+        a.href = this.toDataURL();
+        a.click();
+    };
+
+    //canvasElement.downloadCanvas();
+
     //図形の追加
     const figureList = [];
 
