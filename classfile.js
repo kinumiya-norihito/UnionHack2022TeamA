@@ -76,19 +76,19 @@ class Figure{
 
         let ret=0;
         if(this.#positionX < -1000){
-            this.#vx = Math.abs(this.#vx);
+            this.#positionX+=this.#context.canvas.width+2000;
             ret=+1;
         }
         if(this.#context.canvas.width+1000 < this.#positionX){
-            this.#vx = -Math.abs(this.#vx);
+            this.#positionX-=this.#context.canvas.width+2000;
             ret=+2;
         }
         if(this.#positionY < -1000){
-            this.#vy = Math.abs(this.#vy);
+            this.#positionY+=this.#context.canvas.height+2000;
             ret=+4;
         }
         if(this.#context.canvas.height+1000 < this.#positionY){
-            this.#vy = -Math.abs(this.#vy);
+            this.#positionY-=this.#context.canvas.height+2000;
             ret=+8;
         }
         return ret;
@@ -212,7 +212,12 @@ class Figures{
     constructor(...args){
         for(const arg of args){
             this.#figures.push(arg);
+            this.#context||(this.#context=arg.context);
         }
+    }
+
+    get context(){
+        return this.#context;
     }
 
     set setStyle(style){
@@ -225,6 +230,48 @@ class Figures{
         for(const figure of this.#figures){
             figure.lineWidth=lineWidth;
         }
+    }
+
+    makePath(){
+        for(const i in this.#figures){
+            const figure = this.#figures[i];
+            if(i==0){
+                figure.makePath();
+                figure.clip();
+            }
+            else{
+                figure.makePath();
+                figure.fill();
+            }
+        }
+    }
+
+    fill(){
+        for(const figure of this.#figures){
+            figure.fill();
+        }
+    }
+
+    clip(){
+        for(const i in this.#figures){
+            const figure = this.#figures[i];
+            if(i==0){
+                figure.makePath();
+                figure.clip();
+            }
+            else{
+                figure.makePath();
+            }
+        }
+    }
+
+
+    save(){
+        this.#context.save();
+    }
+
+    restore(){
+        this.#context.restore();
     }
 
     move(dx,dy){
