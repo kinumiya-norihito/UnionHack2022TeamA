@@ -1,6 +1,7 @@
 window.onload=()=>{
     const canvasElement = document.getElementById('canvas'), context = canvasElement.getContext('2d');
     const addFigureButtonElement = document.getElementById('addFigureButtonElement');
+    const downloadImageButton = document.getElementById('downloadImageButton');
     let canvasWidth = 1920, canvasHeight = 1080;
     canvasElement.width = canvasWidth;
     canvasElement.height = canvasHeight;
@@ -99,7 +100,7 @@ window.onload=()=>{
         },
         {
             //四角
-            f:new Rectangle(context, 1768, 139, 1000, 402, 1),
+            f:new Rectangle(context, 1768, 139, 200, 402, 1),
             s:'#F2DF3A'
         },
         {
@@ -201,6 +202,10 @@ window.onload=()=>{
         if(isDowning){
             isDowning=false;
         }
+    });
+
+    downloadImageButton.addEventListener('click',(e)=>{
+        canvasElement.downloadCanvas();
     });
 
     //図形の追加
