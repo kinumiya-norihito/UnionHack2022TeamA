@@ -5,7 +5,9 @@ class Figure{
     #positionY;
     #style;
     #drawType;
-    #lineWidth;
+    #lineWidth=10;
+    #vx=0;
+    #vy=0;
 
     constructor(context, positionX, positionY, drawType){
         this.#context = context;
@@ -25,12 +27,33 @@ class Figure{
         return this.#context;
     }
 
+    set drawType(drawType){
+        this.#drawType = drawType;
+    }
+
     set setStyle(style){
         this.#style = style;
     }
 
+    get getStyle(){
+        return this.#style;
+    }
+
     set lineWidth(lineWidth){
         this.#lineWidth=lineWidth;
+    }
+
+    get vx(){
+        return this.#vx;
+    }
+
+    get vy(){
+        return this.#vy;
+    }
+
+    setVelocity(vx,vy){
+        isNaN(vx)||(this.#vx = vx);
+        isNaN(vy)||(this.#vy = vy);
     }
 
     save(){
@@ -47,8 +70,28 @@ class Figure{
 
     //移動
     move(dx,dy){
-        this.#positionX+=dx;
-        this.#positionY+=dy;
+        this.#positionX+=dx||this.#vx;
+        this.#positionY+=dy||this.#vy;
+        this.setVelocity(dx,dy);
+
+        let ret=0;
+        if(this.#positionX < -1000){
+            this.#positionX+=this.#context.canvas.width+2000;
+            ret=+1;
+        }
+        if(this.#context.canvas.width+1000 < this.#positionX){
+            this.#positionX-=this.#context.canvas.width+2000;
+            ret=+2;
+        }
+        if(this.#positionY < -1000){
+            this.#positionY+=this.#context.canvas.height+2000;
+            ret=+4;
+        }
+        if(this.#context.canvas.height+1000 < this.#positionY){
+            this.#positionY-=this.#context.canvas.height+2000;
+            ret=+8;
+        }
+        return ret;
     }
 
     fill(){
@@ -87,10 +130,6 @@ class Circle extends Figure{
         this.#radius = Math.abs(radius);
     }
 
-    move(dx,dy){
-        super.move(dx,dy);
-    }
-
     makePath(){
         super.context.beginPath();
         super.context.arc(super.positionX, super.positionY, this.#radius, 0, 2*Math.PI, 1);
@@ -114,10 +153,6 @@ class Rectangle extends Figure{
         super(context, positionX, positionY, drawType);
         this.#width = Math.abs(width);
         this.#height = Math.abs(height);
-    }
-
-    move(dx,dy){
-        super.move(dx,dy);
     }
 
     makePath(){
@@ -149,10 +184,6 @@ class Triangle extends Figure{
         this.#p2y = p2y-p0y;
     }
 
-    move(dx,dy){
-        super.move(dx,dy);
-    }
-
     makePath(){
         super.context.beginPath();
         const p0x=super.positionX,p0y=super.positionY;
@@ -181,7 +212,12 @@ class Figures{
     constructor(...args){
         for(const arg of args){
             this.#figures.push(arg);
+            this.#context||(this.#context=arg.context);
         }
+    }
+
+    get context(){
+        return this.#context;
     }
 
     set setStyle(style){
@@ -194,6 +230,48 @@ class Figures{
         for(const figure of this.#figures){
             figure.lineWidth=lineWidth;
         }
+    }
+
+    makePath(){
+        for(const i in this.#figures){
+            const figure = this.#figures[i];
+            if(i==0){
+                figure.makePath();
+                figure.clip();
+            }
+            else{
+                figure.makePath();
+                figure.fill();
+            }
+        }
+    }
+
+    fill(){
+        for(const figure of this.#figures){
+            figure.fill();
+        }
+    }
+
+    clip(){
+        for(const i in this.#figures){
+            const figure = this.#figures[i];
+            if(i==0){
+                figure.makePath();
+                figure.clip();
+            }
+            else{
+                figure.makePath();
+            }
+        }
+    }
+
+
+    save(){
+        this.#context.save();
+    }
+
+    restore(){
+        this.#context.restore();
     }
 
     move(dx,dy){
