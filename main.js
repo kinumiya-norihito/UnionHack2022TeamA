@@ -2,6 +2,8 @@ window.onload=()=>{
     const canvasElement = document.getElementById('canvas'), context = canvasElement.getContext('2d');
     const addFigureButtonElement = document.getElementById('addFigureButtonElement');
     const deleteFigureButtonElement = document.getElementById('deleteFigureButtonElement');
+    const comFigureButtonElement = document.getElementById('comFigureButtonElement');
+
     const downloadImageButton = document.getElementById('downloadImageButton');
     const canvasTitle = document.getElementById('canvasTitle');
     let canvasWidth = 1920, canvasHeight = 1080;
@@ -25,9 +27,7 @@ window.onload=()=>{
     const rnadInt = x => {
         return Math.floor(Math.random()*x);
     };
-    const dPoint = (p0x,p0y,p1x,p1y) => {
-        return (p1x-p0x)**2+(p1y-p0y)**2;
-    };
+    
 
     //canvasElement.downloadCanvas();
 
@@ -234,7 +234,7 @@ window.onload=()=>{
         let figure;
         switch(rnadInt(3)){
             case 0:
-                figure = new Rectangle(context,rnadInt(canvasWidth),rnadInt(canvasHeight),rnadInt(300)+50,rnadInt(300)+50);
+                figure = new Rectangle(context,rnadInt(canvasWidth),rnadInt(canvasHeight),rnadInt(300)+50,rnadInt(300)+50,rnadInt(2));
                 break;
             case 1:
                 const p0x=rnadInt(canvasWidth),p0y=rnadInt(canvasHeight);
@@ -242,10 +242,10 @@ window.onload=()=>{
                 const p1x=Math.floor(Math.cos(arg)*r)+p0x,p1y=Math.floor(Math.sin(arg)*r)+p0y;
                 arg=Math.PI*Math.random()*2,r=Math.random()*230+70;
                 const p2x=Math.floor(Math.cos(arg)*r)+p0x,p2y=Math.floor(Math.sin(arg)*r)+p0y;
-                figure = new Triangle(context,p0x,p0y,p1x,p1y,p2x,p2y);
+                figure = new Triangle(context,p0x,p0y,p1x,p1y,p2x,p2y,rnadInt(2));
                 break;
             case 2:
-                figure = new Circle(context,rnadInt(canvasWidth),rnadInt(canvasHeight),rnadInt(300)+30);
+                figure = new Circle(context,rnadInt(canvasWidth),rnadInt(canvasHeight),rnadInt(300)+30,rnadInt(2));
                 break;
         }
         let r=g=b=0;
@@ -263,6 +263,17 @@ window.onload=()=>{
     deleteFigureButtonElement.addEventListener('click',(e)=>{
         figureList.pop();
         drawFigures();
+    });
+
+    //図形の合成
+    comFigureButtonElement.addEventListener('click',(e)=>{
+        if(figureList.length>=2){
+            const f0=figureList.pop(),f1=figureList.pop();
+            f0.drawType=0,f1.drawType=0;
+            const df=new Figures(f0,f1);
+            df.setStyle=f0.getStyle;
+            figureList.push(df);
+        } 
     });
     // function autoMove(figure){
     //   figure.draw();

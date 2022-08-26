@@ -5,7 +5,7 @@ class Figure{
     #positionY;
     #style;
     #drawType;
-    #lineWidth;
+    #lineWidth=10;
     #vx=0;
     #vy=0;
 
@@ -27,8 +27,16 @@ class Figure{
         return this.#context;
     }
 
+    set drawType(drawType){
+        this.#drawType = drawType;
+    }
+
     set setStyle(style){
         this.#style = style;
+    }
+
+    get getStyle(){
+        return this.#style;
     }
 
     set lineWidth(lineWidth){
