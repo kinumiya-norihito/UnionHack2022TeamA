@@ -2,19 +2,20 @@ window.onload=()=>{
     const canvasElement = document.getElementById('canvas'), context = canvasElement.getContext('2d');
     const addFigureButtonElement = document.getElementById('addFigureButtonElement');
     const downloadImageButton = document.getElementById('downloadImageButton');
+    const canvasTitle = document.getElementById('canvasTitle');
     let canvasWidth = 1920, canvasHeight = 1080;
     canvasElement.width = canvasWidth;
     canvasElement.height = canvasHeight;
 
     //関数
     HTMLCanvasElement.prototype.downloadCanvas = function(name){
-        if(name&&name.match(/\.png$/)[0])name+='.png';
+        name||(name='canvas');
         const a = document.createElement('a');
-        a.download = name || 'canvas.png';
+        a.download = name + '.png';
         a.href = this.toDataURL();
         a.click();
     };
-
+    
     //canvasElement.downloadCanvas();
 
     //図形の追加
@@ -160,6 +161,19 @@ window.onload=()=>{
         context.clearRect(0, 0, canvas.width, canvas.height);
     }
 
+    //自動で動く
+    const moveFigure = ()=>{
+        for(const figure of figureList){
+            figure.move(0,10);
+        }
+        clear();
+        for(const figure of figureList){
+            figure.draw();
+        }
+    };
+
+    //setInterval(moveFigure,33);
+
     //操作関係
     //押してるか押してないか
     let isDowning=false;
@@ -205,7 +219,7 @@ window.onload=()=>{
     });
 
     downloadImageButton.addEventListener('click',(e)=>{
-        canvasElement.downloadCanvas();
+        canvasElement.downloadCanvas(canvasTitle.value);
     });
 
     //図形の追加
