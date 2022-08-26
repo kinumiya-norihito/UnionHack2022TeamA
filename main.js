@@ -1,6 +1,7 @@
 window.onload=()=>{
     const canvasElement = document.getElementById('canvas'), context = canvasElement.getContext('2d');
     const addFigureButtonElement = document.getElementById('addFigureButtonElement');
+    const deleteFigureButtonElement = document.getElementById('deleteFigureButtonElement');
     const downloadImageButton = document.getElementById('downloadImageButton');
     const canvasTitle = document.getElementById('canvasTitle');
     let canvasWidth = 1920, canvasHeight = 1080;
@@ -15,7 +16,13 @@ window.onload=()=>{
         a.href = this.toDataURL();
         a.click();
     };
-    
+    const drawFigures = () => {
+        clear();
+        for(const figure of figureList){
+            figure.draw();
+        }
+    }
+
     //canvasElement.downloadCanvas();
 
     //図形の追加
@@ -148,15 +155,13 @@ window.onload=()=>{
         figure.f.setStyle=figure.s;
         figure.w&&(figure.f.lineWidth=figure.w);
     }
+    drawFigures();
 
     //　暗い青: #0078AA
     //明るい青: #3AB4F2
     //　　黄色: #F2DF3A
     
     //図形の色の指定と表示
-    for(const figure of figureList){
-        figure.draw();
-    }
     function clear() {
         context.clearRect(0, 0, canvas.width, canvas.height);
     }
@@ -166,10 +171,7 @@ window.onload=()=>{
         for(const figure of figureList){
             figure.move(0,10);
         }
-        clear();
-        for(const figure of figureList){
-            figure.draw();
-        }
+        drawFigures();
     };
 
     //setInterval(moveFigure,33);
@@ -191,20 +193,15 @@ window.onload=()=>{
                 break;
             }
         }
-        for(const figure of figureList){
-            figure.draw();
-        }
+        drawFigures();
     });
     canvasElement.addEventListener('mousemove',(e)=>{
-        clear();
         const dx = e.offsetX-lastPosition.x, dy = e.offsetY-lastPosition.y;
         lastPosition.x = e.offsetX, lastPosition.y = e.offsetY;
         const figure = figureList.slice(-1)[0];
         if(isDowning){
             figure.move(dx,dy);
-        }
-        for(const figure of figureList){
-            figure.draw();
+            drawFigures();
         }
     });
     canvasElement.addEventListener('mouseup',(e)=>{
@@ -228,6 +225,12 @@ window.onload=()=>{
         figure.setStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
         figure.draw();
         figureList.push(figure);
+    });
+
+    //画像の削除
+    deleteFigureButtonElement.addEventListener('click',(e)=>{
+        figureList.pop();
+        drawFigures();
     });
     // function autoMove(figure){
     //   figure.draw();
