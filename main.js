@@ -5,10 +5,21 @@ window.onload=()=>{
     canvasElement.width = canvasWidth;
     canvasElement.height = canvasHeight;
 
+    //関数
+    HTMLCanvasElement.prototype.downloadCanvas = function(name){
+        if(name&&name.match(/\.png$/)[0])name+='.png';
+        const a = document.createElement('a');
+        a.download = name || 'canvas.png';
+        a.href = this.toDataURL();
+        a.click();
+    };
+
+    //canvasElement.downloadCanvas();
+
     //図形の追加
     const figureList = [];
 
-
+    //初期配置される図形
     const figureObjList = [
         {
             //右上の円(小)
@@ -129,6 +140,7 @@ window.onload=()=>{
         },
     ];
 
+    //図形を表示
     for(const figure of figureObjList){
         figureList.push(figure.f);
         figure.f.setStyle=figure.s;
@@ -140,11 +152,8 @@ window.onload=()=>{
     //　　黄色: #F2DF3A
     
     //図形の色の指定と表示
-    let counter=0;
     for(const figure of figureList){
-        //figure.fillStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
         figure.draw();
-        counter++;
     }
     function clear() {
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -156,7 +165,6 @@ window.onload=()=>{
     let lastPosition={x:-1,y:-1};
     canvasElement.addEventListener('mousedown',(e)=>{
         const mx = e.offsetX, my = e.offsetY;
-        console.log([mx,my]);
         lastPosition.x = mx;
         lastPosition.y = my;
         for(let i=figureList.length-1;0<=i;i--){
@@ -207,7 +215,6 @@ window.onload=()=>{
     //   clear();
     //   return requestAnimationFrame(autoMove);
     // }
-    figure = figureList[3];
-    console.log(figure);
+    //figure = figureList[3];
     // autoMove(figure);
 };
