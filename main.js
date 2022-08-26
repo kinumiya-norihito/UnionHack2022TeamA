@@ -169,24 +169,28 @@ window.onload=()=>{
     //自動で動く
     const moveFigure = ()=>{
         for(const figure of figureList){
-            figure.move(0,10);
+            figure.move();
+            const px = figure.positionX, py = figure.positionY;
+
         }
         drawFigures();
     };
-
-    //setInterval(moveFigure,33);
+    setInterval(moveFigure,33);
+    //moveFigure();
 
     //操作関係
     //押してるか押してないか
     let isDowning=false;
     let lastPosition={x:-1,y:-1};
     canvasElement.addEventListener('mousedown',(e)=>{
+
         const mx = e.offsetX, my = e.offsetY;
         lastPosition.x = mx;
         lastPosition.y = my;
         for(let i=figureList.length-1;0<=i;i--){
             const figure = figureList[i];
             if(figure.isIn(mx, my)){
+                figure.move(0,0);
                 figureList.splice(i,1);
                 figureList.push(figure);
                 isDowning=true;

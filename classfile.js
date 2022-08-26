@@ -6,6 +6,8 @@ class Figure{
     #style;
     #drawType;
     #lineWidth;
+    #vx=0;
+    #vy=0;
 
     constructor(context, positionX, positionY, drawType){
         this.#context = context;
@@ -33,6 +35,19 @@ class Figure{
         this.#lineWidth=lineWidth;
     }
 
+    get vx(){
+        return this.#vx;
+    }
+
+    get vy(){
+        return this.#vy;
+    }
+
+    setVelocity(vx,vy){
+        isNaN(vx)||(this.#vx = vx);
+        isNaN(vy)||(this.#vy = vy);
+    }
+
     save(){
         this.#context.save();
     }
@@ -47,8 +62,28 @@ class Figure{
 
     //移動
     move(dx,dy){
-        this.#positionX+=dx;
-        this.#positionY+=dy;
+        this.#positionX+=dx||this.#vx;
+        this.#positionY+=dy||this.#vy;
+        this.setVelocity(dx,dy);
+
+        let ret=0;
+        if(this.#positionX < -1000){
+            this.#vx = Math.abs(this.#vx);
+            ret=+1;
+        }
+        if(this.#context.canvas.width+1000 < this.#positionX){
+            this.#vx = -Math.abs(this.#vx);
+            ret=+2;
+        }
+        if(this.#positionY < -1000){
+            this.#vy = Math.abs(this.#vy);
+            ret=+4;
+        }
+        if(this.#context.canvas.height+1000 < this.#positionY){
+            this.#vy = -Math.abs(this.#vy);
+            ret=+8;
+        }
+        return ret;
     }
 
     fill(){
@@ -87,10 +122,6 @@ class Circle extends Figure{
         this.#radius = Math.abs(radius);
     }
 
-    move(dx,dy){
-        super.move(dx,dy);
-    }
-
     makePath(){
         super.context.beginPath();
         super.context.arc(super.positionX, super.positionY, this.#radius, 0, 2*Math.PI, 1);
@@ -114,10 +145,6 @@ class Rectangle extends Figure{
         super(context, positionX, positionY, drawType);
         this.#width = Math.abs(width);
         this.#height = Math.abs(height);
-    }
-
-    move(dx,dy){
-        super.move(dx,dy);
     }
 
     makePath(){
@@ -147,10 +174,6 @@ class Triangle extends Figure{
         this.#p1y = p1y-p0y;
         this.#p2x = p2x-p0x;
         this.#p2y = p2y-p0y;
-    }
-
-    move(dx,dy){
-        super.move(dx,dy);
     }
 
     makePath(){
