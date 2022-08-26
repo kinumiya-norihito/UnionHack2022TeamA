@@ -22,6 +22,12 @@ window.onload=()=>{
             figure.draw();
         }
     }
+    const rnadInt = x => {
+        return Math.floor(Math.random()*x);
+    };
+    const dPoint = (p0x,p0y,p1x,p1y) => {
+        return (p1x-p0x)**2+(p1y-p0y)**2;
+    };
 
     //canvasElement.downloadCanvas();
 
@@ -225,8 +231,30 @@ window.onload=()=>{
 
     //図形の追加
     addFigureButtonElement.addEventListener('click',(e)=>{
-        const figure = new Rectangle(context,100,100,100,100);
-        figure.setStyle=`rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`;
+        let figure;
+        switch(rnadInt(3)){
+            case 0:
+                figure = new Rectangle(context,rnadInt(canvasWidth),rnadInt(canvasHeight),rnadInt(300)+50,rnadInt(300)+50);
+                break;
+            case 1:
+                const p0x=rnadInt(canvasWidth),p0y=rnadInt(canvasHeight);
+                let arg=Math.PI*Math.random()*2,r=Math.random()*230+70;
+                const p1x=Math.floor(Math.cos(arg)*r)+p0x,p1y=Math.floor(Math.sin(arg)*r)+p0y;
+                arg=Math.PI*Math.random()*2,r=Math.random()*230+70;
+                const p2x=Math.floor(Math.cos(arg)*r)+p0x,p2y=Math.floor(Math.sin(arg)*r)+p0y;
+                figure = new Triangle(context,p0x,p0y,p1x,p1y,p2x,p2y);
+                break;
+            case 2:
+                figure = new Circle(context,rnadInt(canvasWidth),rnadInt(canvasHeight),rnadInt(300)+30);
+                break;
+        }
+        let r=g=b=0;
+        while(r**2+g**2+b**2<1000){
+            r=rnadInt(256);
+            g=rnadInt(256);
+            b=rnadInt(256);
+        }
+        figure.setStyle=`rgb(${255-r},${255-g},${255-b})`;
         figure.draw();
         figureList.push(figure);
     });
