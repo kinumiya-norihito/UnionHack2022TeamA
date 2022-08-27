@@ -11,6 +11,7 @@ window.onload=()=>{
     canvasElement.height = canvasHeight;
 
     //関数
+    //画像をダウンロード
     HTMLCanvasElement.prototype.downloadCanvas = function(name){
         name||(name='canvas');
         const a = document.createElement('a');
@@ -18,14 +19,30 @@ window.onload=()=>{
         a.href = this.toDataURL();
         a.click();
     };
+    //乱数(x未満の整数)
+    const rnadInt = x => {
+        return Math.floor(Math.random()*x);
+    };
+    //図形の色の指定と表示
+    const clear = () => {
+        context.fillStyle = '#F6F6F6';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    //図形を描写
     const drawFigures = () => {
         clear();
         for(const figure of figureList){
             figure.draw();
         }
     }
-    const rnadInt = x => {
-        return Math.floor(Math.random()*x);
+    //動かす関数
+    const moveFigure = ()=>{
+        for(const figure of figureList){
+            figure.move();
+            const px = figure.positionX, py = figure.positionY;
+
+        }
+        drawFigures();
     };
     
 
@@ -167,20 +184,7 @@ window.onload=()=>{
     //明るい青: #3AB4F2
     //　　黄色: #F2DF3A
     
-    //図形の色の指定と表示
-    function clear() {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    //自動で動く
-    const moveFigure = ()=>{
-        for(const figure of figureList){
-            figure.move();
-            const px = figure.positionX, py = figure.positionY;
-
-        }
-        drawFigures();
-    };
+    
     setInterval(moveFigure,33);
     //moveFigure();
 
